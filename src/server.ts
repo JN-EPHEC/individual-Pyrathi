@@ -6,12 +6,17 @@ app.get('/',(req,res)=> {
     res.send("Bienvenue sur mon serveur API");
 });
 
+app.get('/api/data',(req,res)=>{
+    const etudiants = [
+{ id: 1, nom: "Dupont", prenom: "Jean" },
+{ id: 2, nom: "Martin", prenom: "Sophie" },
+{ id: 3, nom: "Doe", prenom: "John" },
+];
+    res.json(etudiants)
+})
+
 app.listen(port, () =>{
     console.log(`Serveur lancé sur http://localhost:${port}`);
 });
-function greet(name: string): string{
-    return `une phrase ${name}`
-};
 
-console.log(greet("tom"))
 
