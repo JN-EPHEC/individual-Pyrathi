@@ -12,8 +12,13 @@ app.get('/api/data',(req,res)=>{
 { id: 2, nom: "Martin", prenom: "Sophie" },
 { id: 3, nom: "Doe", prenom: "John" },
 ];
-    res.json(etudiants)
-})
+    res.json(etudiants);
+});
+
+app.get('/api/hello/:name',(req,res)=>{
+    req.params
+    res.json({ "message": "Bonjour Yves", "timestamp":"2026-01-29T12:00:19.821Z" });
+});
 
 app.listen(port, () =>{
     console.log(`Serveur lancé sur http://localhost:${port}`);
