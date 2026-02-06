@@ -16,8 +16,9 @@ app.get('/api/data',(req,res)=>{
 });
 
 app.get('/api/hello/:name',(req,res)=>{
-    req.params
-    res.json({ "message": "Bonjour Yves", "timestamp":"2026-01-29T12:00:19.821Z" });
+    const nom = req.params.name;
+    const timestamp = new Date().toISOString();
+    res.json({ "message": `Bonjour ${nom}`, "timestamp": timestamp });
 });
 
 app.listen(port, () =>{
