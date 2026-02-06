@@ -1,4 +1,5 @@
 import express from 'express'
+import userRoutes from './routes/userRoutes';
 
 const app=express();
 const port=3000;
@@ -20,6 +21,8 @@ app.get('/api/hello/:name',(req,res)=>{
     const timestamp = new Date().toISOString();
     res.json({ "message": `Bonjour ${nom}`, "timestamp": timestamp });
 });
+
+app.use('/api', userRoutes);
 
 app.listen(port, () =>{
     console.log(`Serveur lancé sur http://localhost:${port}`);
