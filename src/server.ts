@@ -16,7 +16,7 @@ app.get('/',(req,res)=> {
 });
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.json());
-app.use('/api', userRoutes);
+app.use('/api/users', userRoutes);
 
 
 sequelize.sync({ force: false }) // force: false évite de supprimer les données à chaque redémarrage

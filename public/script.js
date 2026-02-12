@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function fetchUsers() {
     try {
-        const response = await fetch('/api/users');
+        const response = await fetch(`/api/users`);
         if (!response.ok) throw new Error("Erreur lors de la récupération");
         
         const users = await response.json();
@@ -35,6 +35,7 @@ function displayUsers(users) {
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span><strong>${user.nom}</strong> ${user.prenom}</span>
                 <span class="badge bg-secondary rounded-pill">ID: ${user.id}</span>
+                <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">Supprimer</button>
             </li>
         `;
         listContainer.insertAdjacentHTML('beforeend', item);
@@ -67,5 +68,23 @@ async function addUser() {
         }
     } catch (error) {
         console.error("Erreur lors du POST :", error);
+    }
+}
+
+async function deleteUser(id) {
+    try {
+        const response = await fetch(`/api/users/${id}`,{
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            });
+        
+        if (response.ok) {
+            fetchUsers();
+            
+        } else {
+            alert("Erreur lors de la suppression de l'utilisateur");
+        }
+    } catch (error) {
+        console.error("Erreur lors du DELETE :", error);
     }
 }
