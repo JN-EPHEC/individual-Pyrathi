@@ -1,6 +1,6 @@
 import express from 'express'
 import userRoutes from './routes/userRoutes';
-import sequelize from './config/databse';
+import sequelize from './config/database';
 import User from './models/User';
 
 const app=express();
@@ -8,6 +8,7 @@ const port=3000;
 app.get('/',(req,res)=> {
     res.send("Bienvenue sur mon serveur API");
 });
+app.use(express.json());
 app.use('/api', userRoutes);
 
 sequelize.sync({ force: false }) // force: false évite de supprimer les données à chaque redémarrage

@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../config/databse';
+import sequelize from '../config/database';
 
 
 
