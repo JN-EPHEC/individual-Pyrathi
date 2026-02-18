@@ -8,6 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
             addUser();
         });
     }
+    const searchBar = document.getElementById('search-bar');
+    if (searchBar) {
+        searchBar.addEventListener('input', (e) => {
+            const searchText = e.target.value;
+            searchUsers(searchText);
+        });
+    }
+    
+   
 });
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -35,6 +44,7 @@ function displayUsers(users) {
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span><strong>${user.nom}</strong> ${user.prenom}</span>
                 <span class="badge bg-secondary rounded-pill">ID: ${user.id}</span>
+                <button class="btn btn-sm btn-primary me-2" onclick="updateUser(${user.id})">Modifier</button>
                 <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">Supprimer</button>
             </li>
         `;
@@ -86,5 +96,47 @@ async function deleteUser(id) {
         }
     } catch (error) {
         console.error("Erreur lors du DELETE :", error);
+    }
+}
+
+async function searchUsers(query) {
+    if (query.length < 1) {
+        fetchUsers(); 
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/users/search?q=${query}`);
+        if (!response.ok) throw new Error("Erreur de recherche");
+        
+        const users = await response.json();
+        displayUsers(users); 
+    } catch (error) {
+        console.error("Erreur de recherche :", error);
+    }
+}
+async function updateUser(id) {
+    const nouveauNom = prompt("Entrez le nouveau nom :");
+    const nouveauPrenom = prompt("Entrez le nouveau prénom :");
+
+    if (!nouveauNom || !nouveauPrenom) return;
+
+    const data = { nom: nouveauNom, prenom: nouveauPrenom };
+
+    try {
+        const response = await fetch(`/api/users/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            alert("Utilisateur mis à jour !");
+            fetchUsers();
+        } else {
+            alert("Erreur lors de la mise à jour");
+        }
+    } catch (error) {
+        console.error("Erreur lors du PUT :", error);
     }
 }
