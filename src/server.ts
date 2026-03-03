@@ -5,6 +5,7 @@ import User from './models/User';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { requestLogger } from './middlewares/logger';
+import { errorHandler } from './middlewares/errorHandler';
 
 
 const app=express();
@@ -18,6 +19,7 @@ app.get('/',(req,res)=> {
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.json());
 app.use('/api/users', userRoutes);
+app.use(errorHandler);
 
 
 sequelize.sync({ force: false }) // force: false évite de supprimer les données à chaque redémarrage
