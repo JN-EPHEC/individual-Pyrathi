@@ -15,17 +15,22 @@ const router = express.Router();
 *               description: Succès
 */
 router.get("/", userController.getAllUsers);
-///POST
-router.post('/', async (req, res) => {
-        const { nom, prenom } = req.body;
-        const newUser = await User.create({ nom, prenom }); 
-        res.status(201).json(newUser);
-});
-// DELETE /:id : Supprimer un utilisateur par son ID
-router.delete('/:id', async (req, res) => {
-        const { id } = req.params;
-        const deleted = await User.destroy({ where: { id: id } });
-});
+/**
+ * @swagger
+ * /api/users:
+ * post:
+ * summary: Crée un nouvel utilisateur
+ * tags: [Users]
+ */
+router.post('/', userController.createUser);
+/**
+ * @swagger
+ * /api/users/{id}:
+ * delete:
+ * summary: Supprime un utilisateur par son ID
+ * tags: [Users]
+ */
+router.delete('/:id', userController.deleteUser);
 
 
 export default router; 
