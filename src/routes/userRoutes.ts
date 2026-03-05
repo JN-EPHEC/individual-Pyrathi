@@ -4,7 +4,16 @@ import * as userController from "../controllers/userController";
 
 const router = express.Router();
 
-
+/**
+* @swagger
+* /api/users:
+*  get:
+*       summary: Récupère la liste des utilisateurs
+*       tags: [Users]
+*       responses:
+*        200:
+*               description: Succès
+*/
 router.get("/", userController.getAllUsers);
 ///POST
 router.post('/', async (req, res) => {
