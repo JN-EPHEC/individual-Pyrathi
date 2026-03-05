@@ -8,6 +8,7 @@ import { requestLogger } from './middlewares/logger';
 import { errorHandler } from './middlewares/errorHandler';
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
+import cors from 'cors';
 
 
 
@@ -15,6 +16,7 @@ const app=express();
 const port=3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+app.use(cors());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(requestLogger);
 app.get('/',(req,res)=> {
