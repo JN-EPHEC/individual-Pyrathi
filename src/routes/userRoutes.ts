@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/User';
 import * as userController from "../controllers/userController";
+import { checkIdParam } from "../middlewares/checkIdParam";
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ const router = express.Router();
 *        200:
 *               description: Succès
 */
-router.get("/", userController.getAllUsers);
+router.get("/:id",checkIdParam, userController.getAllUsers);
 /**
  * @swagger
  * /api/users:
@@ -22,7 +23,7 @@ router.get("/", userController.getAllUsers);
  * summary: Crée un nouvel utilisateur
  * tags: [Users]
  */
-router.post('/', userController.createUser);
+router.post('/:id',checkIdParam, userController.createUser);
 /**
  * @swagger
  * /api/users/{id}:
@@ -30,7 +31,7 @@ router.post('/', userController.createUser);
  * summary: Supprime un utilisateur par son ID
  * tags: [Users]
  */
-router.delete('/:id', userController.deleteUser);
+router.delete('/:id', checkIdParam,userController.deleteUser);
 
 
 export default router; 
