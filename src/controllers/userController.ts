@@ -33,3 +33,29 @@ export const deleteUser = async (req: Request, res: Response) => {
         res.status(500).json({ error: (error as any).message });
     }
 };
+
+export const updateUser = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { nom, prenom } = req.body;
+        await User.update({ nom, prenom }, { where: { id } });
+        const updatedUser = await User.findByPk(id);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(500).json({ error: (error as any).message });
+    }
+}; 
+
+export const getUserById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByPk(id);
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ error: "Utilisateur non trouvé" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: (error as any).message });
+    }
+}
