@@ -1,0 +1,31 @@
+{
+  "name": "dev3-backend-tp1",
+  "version": "1.0.0",
+  "description": "\"# individual-Néo Carlier\"",
+  "main": "index.js",
+  "scripts": {
+    "//": "Installe les dépendances des deux projets",
+    "setup": "npm install --prefix server && npm install --prefix client",
+    "//": "Raccourcis vers les commandes des sous-dossiers",
+    "start:server": "npm run dev --prefix server",
+    "start:client": "npm run dev --prefix client",
+    "//": "Lance les deux en parallèle",
+    "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JN-EPHEC/individual-Pyrathi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JN-EPHEC/individual-Pyrathi/issues"
+  },
+  "homepage": "https://github.com/JN-EPHEC/individual-Pyrathi#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
