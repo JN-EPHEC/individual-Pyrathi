@@ -14,7 +14,7 @@ function App() {
 
   // Hook pour déclencher l'appel API au montage du composant
   useEffect(() => {
-    fetch("http://localhost:3000/api/users")
+    fetch(`${import.meta.env.VITE_API_URL}/users`)
       .then((res) => res.json())
       .then((data: User[]) => {
         setUsers(data);

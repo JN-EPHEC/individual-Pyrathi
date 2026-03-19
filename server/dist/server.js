@@ -1,7 +1,6 @@
-import express from 'express'
+import express from 'express';
 import userRoutes from './routes/userRoutes.js';
 import sequelize from './config/database.js';
-import User from './models/User.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { requestLogger } from './middlewares/logger.js';
@@ -9,11 +8,8 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.js";
 import cors from 'cors';
-
-
-
-const app=express();
-const port=3000;
+const app = express();
+const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 //const publicPath = path.join(__dirname, '..', 'public');
@@ -27,37 +23,24 @@ app.use(requestLogger);
 app.use(express.json());
 app.use('/api/users', userRoutes);
 app.use(errorHandler);
-
-
 sequelize.sync({ force: false }) // force: false évite de supprimer les données à chaque redémarrage
     .then(() => {
-        console.log('Connexion à la base de données réussie et modèles synchronisés');
-        
-        // On ne lance l'écoute du serveur que si la DB est prête
-        app.listen(port, () => {
-            console.log(`Serveur lancé sur http://localhost:${port}`);
-        });
-    })
-app.get('/api/data',(req,res)=>{
+    console.log('Connexion à la base de données réussie et modèles synchronisés');
+    // On ne lance l'écoute du serveur que si la DB est prête
+    app.listen(port, () => {
+        console.log(`Serveur lancé sur http://localhost:${port}`);
+    });
+});
+app.get('/api/data', (req, res) => {
     const etudiants = [
-{ id: 1, nom: "Dupont", prenom: "Jean" },
-{ id: 2, nom: "Martin", prenom: "Sophie" },
-{ id: 3, nom: "Doe", prenom: "John" },
-];
+        { id: 1, nom: "Dupont", prenom: "Jean" },
+        { id: 2, nom: "Martin", prenom: "Sophie" },
+        { id: 3, nom: "Doe", prenom: "John" },
+    ];
     res.json(etudiants);
 });
-
-app.get('/api/hello/:name',(req,res)=>{
+app.get('/api/hello/:name', (req, res) => {
     const nom = req.params.name;
     const timestamp = new Date().toISOString();
     res.json({ "message": `Bonjour ${nom}`, "timestamp": timestamp });
 });
-
-
-
-
-
-
-
-
-

@@ -1,9 +1,7 @@
 import express from 'express';
 import * as userController from "../controllers/userController.js";
 import { checkIdParam } from "../middlewares/checkIdParam.js";
-
 const router = express.Router();
-
 /**
  * @swagger
  * /api/users:
@@ -17,7 +15,6 @@ const router = express.Router();
  *         description: Erreur serveur
  */
 router.get("/", userController.getAllUsers);
-
 /**
  * @swagger
  * /api/users/{id}:
@@ -39,7 +36,6 @@ router.get("/", userController.getAllUsers);
  *         description: Utilisateur non trouvé
  */
 router.get("/:id", checkIdParam, userController.getUserById);
-
 /**
  * @swagger
  * /api/users:
@@ -59,7 +55,6 @@ router.get("/:id", checkIdParam, userController.getUserById);
  *         description: Données manquantes ou invalides
  */
 router.post('/', userController.createUser);
-
 /**
  * @swagger
  * /api/users/{id}:
@@ -87,7 +82,6 @@ router.post('/', userController.createUser);
  *         description: Utilisateur non trouvé
  */
 router.put('/:id', checkIdParam, userController.updateUser);
-
 /**
  * @swagger
  * /api/users/{id}:
@@ -109,5 +103,4 @@ router.put('/:id', checkIdParam, userController.updateUser);
  *         description: Utilisateur non trouvé
  */
 router.delete('/:id', checkIdParam, userController.deleteUser);
-
 export default router;
