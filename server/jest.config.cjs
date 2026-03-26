@@ -2,6 +2,12 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  // S'assure que Jest cherche bien les fichiers .ts
-  moduleFileExtensions: ['ts', 'js', 'json', 'node'],
+  // On indique explicitement où chercher les fichiers de tests
+  roots: ['<rootDir>/src'],
+  // On force la transformation des fichiers TS
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  // On s'assure que Jest reconnaît les extensions
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
