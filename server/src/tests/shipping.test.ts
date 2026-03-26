@@ -1,4 +1,4 @@
-import { calculateShipping } from '../utils/shipping.ts';
+import { calculateShipping } from '../utils/shipping';
 const shippingTests = [
   // [distance, poids, type, résultat attendu ou erreur]
   
