@@ -1,13 +1,21 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'ts-jest',
+  // Utilisation du preset ESM spécifique
+  preset: 'ts-jest/presets/default-esm', 
   testEnvironment: 'node',
-  // On indique explicitement où chercher les fichiers de tests
-  roots: ['<rootDir>/src'],
-  // On force la transformation des fichiers TS
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+  // On indique à Jest de traiter le .ts comme de l'ESM
+  extensionsToTreatAsEsm: ['.ts'],
+  moduleNameMapper: {
+    // Aide Jest à trouver les fichiers sans extensions
+    '^(\\.{1,2}/.*)\\.js$': '$1',
   },
-  // On s'assure que Jest reconnaît les extensions
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  transform: {
+    // Configuration spécifique de ts-jest pour l'ESM
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        useESM: true,
+      },
+    ],
+  },
 };
