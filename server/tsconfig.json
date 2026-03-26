@@ -7,6 +7,7 @@
     "moduleResolution": "NodeNext", 
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "isolatedModules": true,
     "strict": false 
   },
   "include": ["src/**/*"],
