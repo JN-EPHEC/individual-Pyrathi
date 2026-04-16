@@ -25,5 +25,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           source: "client/dist/*"
-          target: "/var/www/html/"
+          target: "/home/neo/projet_vps/web/html"
           strip_components: 2
+          script: docker restart projet_vps-web-1
