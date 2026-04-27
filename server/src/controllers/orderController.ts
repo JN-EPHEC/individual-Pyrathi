@@ -1,14 +1,32 @@
 import { Request, Response } from 'express';
-import { OrderManager } from '../services/orderManager.ts';
+import { OrderManager } from '../services/orderManager.js';
 
-const orderManager = new OrderManager();
+interface OrderBody {
+    customer: { firstName: string; lastName: string; email: string; phone: string; address: string };
+    product: { name: string; price: number; stock: number };
+    quantity: number;
+    discountCode?: string;
+}
 
-export const handleOrder = async (req: Request, res: Response) => {
+export const createOrder = async (req: Request, res: Response) => {
     try {
-        // Le contrôleur ne fait aucun calcul, il passe juste les données au service
-        const total = orderManager.processOrder(req.body.customer, req.body.product, req.body.quantity, req.body.discount);
-        res.status(200).json({ message: "Commande réussie", total });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+        const data = req.body as OrderBody;
+        const orderManager = new OrderManager();
+
+        const result = await orderManager.processOrder(
+            data.customer,
+            data.product,
+            data.quantity,
+            data.discountCode || ""
+        );
+
+        res.status(201).json({
+            success: true,
+            message: "Commande créée !",
+            totalPrice: result
+        });
+    } catch (error: any) {
+        console.error("Erreur Controller:", error);
+        res.status(500).json({ success: false, error: error.message });
     }
 };

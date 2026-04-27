@@ -1,69 +1,19 @@
-import { Customer, Product } from './order.types.ts';
-import { PricingService } from './pricingService.ts';
-import { EmailService } from './emailService.ts';
+import Order from '../models/Order.js';
 
 export class OrderManager {
-  private pricingService: PricingService;
-  private emailService: EmailService;
+    async processOrder(customer: any, product: any, quantity: number, discountCode: string): Promise<number> {
+        // 1. Calcul du prix (Prix * Quantité + 21% TVA)
+        const totalHTVA = product.price * quantity;
+        const totalTTC = totalHTVA * 1.21; 
 
-  // Injection des dépendances
-  constructor() {
-    this.pricingService = new PricingService();
-    this.emailService = new EmailService();
-  }
+        // 2. Enregistrement en base de données
+        await Order.create({
+            customerName: `${customer.firstName} ${customer.lastName}`,
+            productName: product.name,
+            quantity: quantity,
+            totalPrice: totalTTC
+        });
 
-  public processOrder(
-    customer: Customer,
-    product: Product,
-    quantity: number,
-    discountCode: string,
-  ): number {
-    this.validateCustomer(customer);
-    this.checkInventory(product, quantity);
-
-    const finalPrice = this.pricingService.calculateTotal(
-      product.price,
-      quantity,
-      discountCode,
-    );
-
-    product.stock -= quantity; // Mise à jour du stock
-
-    const message = `Votre commande pour ${quantity}x ${product.name} est confirmée. Total: ${finalPrice}€.`;
-    this.emailService.sendEmail(customer.email, message);
-
-    return finalPrice;
-  }
-
-  public calculateRefund(
-    product: Product,
-    quantity: number,
-    discountCode: string,
-  ): number {
-    const refundAmount = this.pricingService.calculateTotal(
-      product.price,
-      quantity,
-      discountCode,
-    );
-
-    this.emailService.sendEmail(
-      "admin@magasin.com",
-      `Remboursement traité. Montant: ${refundAmount}€.`,
-    );
-
-    return refundAmount;
-  }
-
-  // Méthodes privées d'aide (réduit la taille de processOrder)
-  private validateCustomer(customer: Customer): void {
-    if (!customer.email.includes("@") || customer.firstName === "") {
-      throw new Error("Utilisateur invalide");
+        return totalTTC;
     }
-  }
-
-  private checkInventory(product: Product, quantity: number): void {
-    if (quantity > product.stock) {
-      throw new Error("Stock insuffisant");
-    }
-  }
 }
